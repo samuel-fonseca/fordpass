@@ -53,13 +53,9 @@ class Vehicle extends Ford
     public function lock()
     {
         $uri = sprintf('api/vehicles/v2/%s/doors/lock', env('FORD_VIN'));
-        $headers = array_merge(
-            $this->clientHeaders,
-            [
-                'Application-Id' => '71A3AD0A-CF46-4CCF-B473-FC7FE5BC4592',
-                'Auth-Token' => $this->getToken()->access_token
-            ]
-        );
+        $headers = array_merge($this->clientHeaders, [
+            'Auth-Token' => $this->getToken()->access_token
+        ]);
 
         $response = $this->client->put($uri, [
             'headers' => $headers
@@ -70,6 +66,16 @@ class Vehicle extends Ford
 
     public function unlock()
     {
+        $uri = sprintf('api/vehicles/v2/%s/doors/lock', env('FORD_VIN'));
+        $headers = array_merge($this->clientHeaders, [
+            'Auth-Token' => $this->getToken()->access_token
+        ]);
+
+        $response = $this->client->delete($uri, [
+            'headers' => $headers
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
     }
 
     /*******************************************

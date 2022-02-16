@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vehicle;
 
+use App\Http\Controllers\Controller;
 use App\Services\Ford\Vehicle;
 
 class GetVehicleStatusAction extends Controller

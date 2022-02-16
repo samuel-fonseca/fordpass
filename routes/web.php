@@ -17,7 +17,10 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/vehicles', 'GetVehiclesAction');
-$router->get('/vehicle/status', 'GetVehicleStatusAction');
-$router->get('/vehicle/lock', 'DoorCommandAction');
-$router->get('/token', 'GetFordTokenAction');
+$router->group(['prefix' => 'api', 'namespace' => 'Vehicle'], function () use ($router) {
+    $router->get('/vehicle/status', 'GetVehicleStatusAction');
+    $router->get('/vehicle/start', 'StartVehicleAction');
+    $router->get('/vehicle/stop', 'StopVehicleAction');
+    $router->get('/vehicle/lock', 'LockDoorAction');
+    $router->get('/vehicle/unlock', 'UnlockDoorAction');
+});

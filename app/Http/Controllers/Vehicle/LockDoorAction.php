@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vehicle;
 
+use App\Http\Controllers\Controller;
 use App\Services\Ford\Vehicle;
 
-class DoorCommandAction extends Controller
+class LockDoorAction extends Controller
 {
     public function __invoke(Vehicle $service)
     {
