@@ -1,7 +1,7 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "samuel-fonseca/fordpass",
+    "description": "An API access to control a Ford car that supports Sync3 & FordPass.",
+    "keywords": ["framework", "laravel", "lumen", "ford", "fordpass"],
     "license": "MIT",
     "type": "project",
     "require": {
