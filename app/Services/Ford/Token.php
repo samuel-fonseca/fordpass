@@ -6,6 +6,12 @@ use App\Models\Token as ModelsToken;
 
 class Token extends Ford
 {
+    protected string $username;
+
+    protected string $password;
+
+    protected $client_id = '9fb503e0-715b-47e8-adfd-ad4b7770f73b';
+
     private string $url = 'https://sso.ci.ford.com/oidc/endpoint/default/token';
 
     public function authenticate(): ModelsToken

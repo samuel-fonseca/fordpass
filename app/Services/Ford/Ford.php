@@ -7,15 +7,9 @@ use GuzzleHttp\Client;
 
 class Ford
 {
-    protected string $username;
-
-    protected string $password;
-
     protected string $vin;
 
     protected Client $client;
-
-    protected $client_id = '9fb503e0-715b-47e8-adfd-ad4b7770f73b';
 
     protected array $clientConfig = [];
 
@@ -46,5 +40,10 @@ class Ford
         }
 
         return $token;
+    }
+
+    protected function decodedResponse(mixed $response): mixed
+    {
+        return json_decode((string) $response->getBody(), true);
     }
 }

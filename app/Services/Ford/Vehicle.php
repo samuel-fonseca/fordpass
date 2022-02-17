@@ -4,20 +4,27 @@ namespace App\Services\Ford;
 
 class Vehicle extends Ford
 {
-    protected array $clientConfig = [
-        'base_uri' => 'https://usapi.cv.ford.com',
-    ];
+    protected array $clientConfig;
 
-    public function status(): array
+    public function __construct()
     {
-        $response = $this->client->get(
-            sprintf('/api/vehicles/v4/%s/status', $this->vin),
-            [
-                'headers' => $this->headers(),
-            ]
-        );
+        $this->clientConfig = [
+            'base_uri' => 'https://usapi.cv.ford.com',
+            'headers' => $this->headers(),
+        ];
 
-        return json_decode((string) $response->getBody(), true);
+        parent::__construct();
+    }
+
+    public function status(bool $fresh = false): array
+    {
+        if ($fresh) {
+            $this->refreshStatus();
+        }
+
+        $response = $this->client->get(sprintf('/api/vehicles/v4/%s/status', $this->vin));
+
+        return $this->decodedResponse($response);
     }
 
     /*******************************************
@@ -31,7 +38,7 @@ class Vehicle extends Ford
             'headers' => $this->headers(),
         ]);
 
-        return json_decode((string) $response->getBody(), true);
+        return $this->decodedResponse($response);
     }
 
     public function unlock(): array
@@ -42,7 +49,7 @@ class Vehicle extends Ford
             'headers' => $this->headers(),
         ]);
 
-        return json_decode((string) $response->getBody(), true);
+        return $this->decodedResponse($response);
     }
 
     /*******************************************
@@ -56,7 +63,7 @@ class Vehicle extends Ford
             'headers' => $this->headers(),
         ]);
 
-        return json_decode((string) $response->getBody(), true);
+        return $this->decodedResponse($response);
     }
 
     public function stop(): array
@@ -66,7 +73,18 @@ class Vehicle extends Ford
             'headers' => $this->headers(),
         ]);
 
-        return json_decode((string) $response->getBody(), true);
+        return $this->decodedResponse($response);
+    }
+
+    public function lights(): array
+    {
+        // vehicles/${vin}/zonelightingactivation
+        $uri = sprintf('api/vehicles/%s/zonelightingactivation', $this->vin);
+        $response = $this->client->delete($uri, [
+            'headers' => $this->headers(),
+        ]);
+
+        return $this->decodedResponse($response);
     }
 
     /*******************************************
@@ -78,5 +96,12 @@ class Vehicle extends Ford
         return array_merge($this->clientHeaders, [
             'Auth-Token' => $this->getToken()->access_token
         ]);
+    }
+
+    private function refreshStatus(): array
+    {
+        $response = $this->client->put(sprintf('/api/vehicles/%s/status', $this->vin));
+
+        return $this->decodedResponse($response);
     }
 }
