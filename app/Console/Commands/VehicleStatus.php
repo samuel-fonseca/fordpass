@@ -3,12 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Services\Ford\Vehicle;
-use Exception;
 use Illuminate\Console\Command;
 
 class VehicleStatus extends Command
 {
-    protected $signature = 'vehicle:status';
+    protected $signature = 'vehicle:status {--fresh}';
 
     protected $description = 'Get the current status of your Ford vehicle from the console';
 
@@ -22,7 +21,7 @@ class VehicleStatus extends Command
         $response = $service->status()['vehiclestatus'];
 
         $this->info(sprintf('🚗 VIN: %s', $response['vin']));
-        $this->info(sprintf('⚙️ Ignition status: %s', $response['ignitionStatus']['value']));
+        $this->info(sprintf('⚙️  Ignition status: %s', $response['ignitionStatus']['value']));
         if ($this->isCarRunning($response)) {
             $this->info('✅ Remote Start is on');
             $this->info(sprintf('Remote Start: %s (running since: %s)', $response['remoteStart']['remoteStartDuration'], $response['remoteStart']['remoteStartTime']));
@@ -32,10 +31,11 @@ class VehicleStatus extends Command
         $this->info(sprintf('🔒 Lock: %s (%s)', $response['lockStatus']['value'], $response['lockStatus']['timestamp']));
         $this->info(sprintf('🔔 Alarm: %s (%s)', $response['alarm']['value'], $response['alarm']['timestamp']));
         $this->info(sprintf('⏱  Odometer: %s (%s)', $response['odometer']['value'], $response['odometer']['timestamp']));
-        $this->info(sprintf('⛽️ Fuel: %s (until empty: %s)', $response['fuel']['fuelLevel'], $response['fuel']['distanceToEmpty']));
+        $this->info(sprintf('⛽️ Fuel: %s%% (until empty: %s)', $response['fuel']['fuelLevel'], $response['fuel']['distanceToEmpty']));
         $this->info(sprintf('📍 Location: lat %s / long %s', $response['gps']['latitude'], $response['gps']['longitude']));
+        $this->info(sprintf('🌎 Map View: https://duckduckgo.com/?q=%s,%s&ia=web&iaxm=maps', $response['gps']['latitude'], $response['gps']['longitude']));
         $this->info(sprintf('🔋 Battery Health: %s (%s)', $this->batteryHealthLevel($response['battery']), $response['battery']['batteryStatusActual']['value']));
-        $this->info(sprintf('🛢  Oil Life: %s', $response['oil']['oilLifeActual']));
+        $this->info(sprintf('🛢  Oil Life: %s%%', $response['oil']['oilLifeActual']));
         $this->info(sprintf('🌡  Tire Pressure: %s', $this->tirePressureLevel($response['tirePressure'])));
 
         $this->line('----------------------------------');
