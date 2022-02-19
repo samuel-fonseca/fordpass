@@ -18,23 +18,15 @@ class VehicleControl extends Command
 
     public function handle(Vehicle $service)
     {
-        //{"$id":"1","commandId":"3c83ef5b-de02-4986-b528-d7799d0c7b46","status":200,"version":"1.0.0"}
-        $response = match ($this->argument('action')) {
-            'start' => $service->start(),
-            'stop' => $service->stop(),
-            'lock' => $service->lock(),
-            'unlock' => $service->unlock(),
-            'lights' => $service->lights(),
-            default => [],
-        };
+        $command = $this->argument('action');
+        if (method_exists($service, $command)) {
+            $response = $service->{$command}();
 
-        if ($response === []) {
-            $this->error('You must choose a valid command. [start, stop, lock, unlock]');
-            exit;
-        }
-
-        foreach ($response as $k => $v) {
-            $this->info($k . ': ' . $v);
+            foreach ($response as $k => $v) {
+                $this->info($k . ': ' . $v);
+            }
+        } else {
+            $this->error(sprintf('The command "%s" is invalid.', $command));
         }
     }
 }
