@@ -1,8 +1,11 @@
 /vendor
+/node_modules
 /.idea
+/.serverless
 Homestead.json
 Homestead.yaml
 .env
 .phpunit.result.cache
-
+/public/js
+/public/css
 database/*.sqlite
