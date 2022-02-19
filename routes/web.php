@@ -13,14 +13,16 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+// $router->get('/', function () use ($router) {
+//     return view('index');
+// });
 
 $router->group(['prefix' => 'api', 'namespace' => 'Vehicle'], function () use ($router) {
-    $router->get('/vehicle/status', 'GetVehicleStatusAction');
-    $router->get('/vehicle/start', 'StartVehicleAction');
-    $router->get('/vehicle/stop', 'StopVehicleAction');
-    $router->get('/vehicle/lock', 'LockDoorAction');
-    $router->get('/vehicle/unlock', 'UnlockDoorAction');
+    $router->get('/vehicle/{vin}/{command}', 'SendVehicleCommandAction');
+    // $router->get('/vehicles', 'GetAllVehiclesAction');
+    // $router->get('/vehicle/status', 'GetVehicleStatusAction');
+    // $router->get('/vehicle/start', 'StartVehicleAction');
+    // $router->get('/vehicle/stop', 'StopVehicleAction');
+    // $router->get('/vehicle/lock', 'LockDoorAction');
+    // $router->get('/vehicle/unlock', 'UnlockDoorAction');
 });

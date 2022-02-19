@@ -76,10 +76,23 @@ class Vehicle extends Ford
         return $this->decodedResponse($response);
     }
 
-    public function lights(): array
+    /*******************************************
+    * Guard Mode
+    *******************************************/
+
+    public function guard(): array
     {
-        // vehicles/${vin}/zonelightingactivation
-        $uri = sprintf('api/vehicles/%s/zonelightingactivation', $this->vin);
+        $uri = sprintf('https://api.mps.ford.com/api/guardmode/v1/%s/session', $this->vin);
+        $response = $this->client->put($uri, [
+            'headers' => $this->headers(),
+        ]);
+
+        return $this->decodedResponse($response);
+    }
+
+    public function unguard(): array
+    {
+        $uri = sprintf('https://api.mps.ford.com/api/guardmode/v1/%s/session', $this->vin);
         $response = $this->client->delete($uri, [
             'headers' => $this->headers(),
         ]);

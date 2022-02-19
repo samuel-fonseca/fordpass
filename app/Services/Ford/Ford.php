@@ -31,6 +31,13 @@ class Ford
         $this->client = new Client($this->clientConfig);
     }
 
+    public function vin(string $vin): static
+    {
+        $this->vin = $vin;
+
+        return $this;
+    }
+
     public function getToken(): ModelsToken
     {
         $token = ModelsToken::query()->notExpired()->first();
@@ -40,6 +47,17 @@ class Ford
         }
 
         return $token;
+    }
+
+    public function getVehicles(): array
+    {
+        $url = 'https://services.cx.ford.com/api/dashboard/v1/users/vehicles';
+        $headers = $this->clientHeaders + [
+            'Auth-Token' => $this->getToken()->access_token
+        ];
+        $response = $this->client->get($url, ['headers' => $headers]);
+
+        return $this->decodedResponse($response);
     }
 
     protected function decodedResponse(mixed $response): mixed
