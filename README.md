@@ -10,6 +10,14 @@ To get started you need to be familiar with [Lumen micro-framework](https://lume
 $ composer install
 ```
 
+Ensure all config is set in the `.env` file. Also make sure to include your FordPass credentials and VIN number for the API access.
+
+```env
+FORD_USERNAME=[username]
+FORD_PASSWORD=[password]
+FORD_VIN=[password]
+```
+
 Once installed create a `database.sqlite` file:
 
 ```terminal
@@ -67,12 +75,18 @@ $ php artisan vehicle:status {--fresh}
 
 ## Deployment
 
-In case you'd like to have this up in the cloud, to keep this simple, I have chosen to deploy to AWS Lambda. Before launching read the documentation on how to use [Bref](https://bref.sh/) and [serverless](https://www.serverless.com/).
+In case you'd like to have this up in the cloud, to keep it simple I have chosen to deploy to AWS Lambda. Before launching read the documentation on how to use [Bref](https://bref.sh/) and [serverless](https://www.serverless.com/).
 
-Follow the instructions on bref's getting started tutorial to launch to your own instance of AWS Lambda. Once you have gotten all of your setup ready to be deployed you can use an internal artisan command to deploy:
+Follow the instructions on [Bref's getting started tutorial](https://bref.sh/docs/) to launch to your own instance of AWS Lambda and deploy the app. Once you have gotten all of your setup ready to be deployed you can use an internal artisan command to deploy:
 
 ```terminal
 $ php artisan deploy
+```
+
+Or you can use serverless' own cli.
+
+```terminal
+$ serverless deploy
 ```
 
 The deploy command will run a production composer install and deploy to AWS with `serverless deploy`. The application updates Lumen's config for database, cache, session, and logging when launched.
