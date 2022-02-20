@@ -14,6 +14,7 @@ Once installed create a `database.sqlite` file:
 
 ```terminal
 $ touch database/database.sqlite
+```
 
 Finally run the migrations:
 
