@@ -1,24 +1,51 @@
-# Lumen PHP Framework
+# FordPass Access
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/lumen)](https://packagist.org/packages/laravel/lumen-framework)
+This is a simple Lumen web app to send basic commands and fetch the current status to your Ford vehicle with Sync 3.
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+## Local development
 
-## Official Documentation
+To get started you need to be familiar with [Lumen micro-framework](https://lumen.laravel.com/docs/9.x). Once the repo has been cloned, make sure to install all depedencies.
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+```terminal
+$ php -S localhost:8000 -t public
+```
 
-## Contributing
+### Supported Actions
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Currently these are the supported actions:
 
-## Security Vulnerabilities
+- `start`
+- `stop`
+- `lock`
+- `unlock`
+- `status`
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+### Endpoints
 
-## License
+To access these actions via your browser you can visit:
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+`GET /api/vehicle/{vin}/{command}`
+
+The endpoint will return a `json` response of your request.
+
+### Console
+
+The commands can also be invoked through the Artisan console:
+
+```terminal
+$ php artisan vehicle:control {command}
+```
+
+You may also get the status of your car.
+
+```terminal
+$ php artisan vehicle:status {--fresh}
+```
+
+## Deployment
+
+In case you'd like to have this up in the cloud, to keep this simple, I have chosen to deploy to AWS Lambda. Before launching read the documentation on how to use [Bref](https://bref.sh/) and [serverless](https://www.serverless.com/).
+
+Follow the instructions on bref's getting started tutorial to launch to your own instance of AWS Lambda.
+
+The application updates Lumen's config for database, cache, session, and logging when launched.
