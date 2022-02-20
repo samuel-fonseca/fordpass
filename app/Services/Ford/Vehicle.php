@@ -27,6 +27,22 @@ class Vehicle extends Ford
         return $this->decodedResponse($response);
     }
 
+    public function capabilities(): array
+    {
+        return $this->decodedResponse(
+            $this->client
+                ->get(sprintf('https://api.mps.ford.com/api/capability/v1/vehicles/%s', $this->vin))
+        );
+    }
+
+    public function details(): array
+    {
+        return $this->decodedResponse(
+            $this->client
+                ->get(sprintf('https://usapi.cv.ford.com/api/users/vehicles/%s/detail', $this->vin))
+        );
+    }
+
     /*******************************************
     * Door Control
     *******************************************/

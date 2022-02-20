@@ -14,6 +14,8 @@ class SendVehicleCommandAction extends Controller
         'stop',
 
         'status',
+        'capabilities',
+        'details',
     ];
 
     public function __invoke(string $vin, string $command, Vehicle $service)
