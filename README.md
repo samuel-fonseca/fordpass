@@ -1,6 +1,6 @@
 # FordPass Access
 
-This is a simple Lumen web app to send basic commands and fetch the current status to your Ford vehicle with Sync 3.
+This is a simple Lumen web app to send basic commands and fetch the current status to your Ford vehicle with Sync 3 enabled.
 
 ## Local development
 
@@ -10,7 +10,7 @@ To get started you need to be familiar with [Lumen micro-framework](https://lume
 $ php -S localhost:8000 -t public
 ```
 
-### Supported Actions
+### Supported Actions & Vehicle Information
 
 Currently these are the supported actions:
 
@@ -18,11 +18,16 @@ Currently these are the supported actions:
 - `stop`
 - `lock`
 - `unlock`
+
+Vehicle information actions:
+
 - `status`
+- `details`
+- `capabilities`
 
 ### Endpoints
 
-To access these actions via your browser you can visit:
+To access these actions/vehicle info via your browser you can visit:
 
 `GET /api/vehicle/{vin}/{command}`
 
@@ -46,6 +51,10 @@ $ php artisan vehicle:status {--fresh}
 
 In case you'd like to have this up in the cloud, to keep this simple, I have chosen to deploy to AWS Lambda. Before launching read the documentation on how to use [Bref](https://bref.sh/) and [serverless](https://www.serverless.com/).
 
-Follow the instructions on bref's getting started tutorial to launch to your own instance of AWS Lambda.
+Follow the instructions on bref's getting started tutorial to launch to your own instance of AWS Lambda. Once you have gotten all of your setup ready to be deployed you can use an internal artisan command to deploy:
 
-The application updates Lumen's config for database, cache, session, and logging when launched.
+```terminal
+$ php artisan deploy
+```
+
+The deploy command will run a production composer install and deploy to AWS with `serverless deploy`. The application updates Lumen's config for database, cache, session, and logging when launched.
