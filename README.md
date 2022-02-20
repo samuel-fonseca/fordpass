@@ -7,6 +7,23 @@ This is a simple Lumen web app to send basic commands and fetch the current stat
 To get started you need to be familiar with [Lumen micro-framework](https://lumen.laravel.com/docs/9.x). Once the repo has been cloned, make sure to install all depedencies.
 
 ```terminal
+$ composer install
+```
+
+Once installed create a `database.sqlite` file:
+
+```terminal
+$ touch database/database.sqlite
+
+Finally run the migrations:
+
+```terminal
+$ php artisan migrate
+```
+
+Finally you can serve the app locally using PHP.
+
+```terminal
 $ php -S localhost:8000 -t public
 ```
 

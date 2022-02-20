@@ -10,10 +10,7 @@ class BrefServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $isRunningInLambda = isset($_SERVER['LAMBDA_TASK_ROOT']);
-
-        // The rest below is specific to AWS Lambda
-        if (! $isRunningInLambda) {
+        if (! isset($_SERVER['LAMBDA_TASK_ROOT'])) {
             return;
         }
 
