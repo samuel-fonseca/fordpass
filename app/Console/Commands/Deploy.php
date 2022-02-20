@@ -12,7 +12,9 @@ class Deploy extends Command
 
     public function handle()
     {
-        `composer install --prefer-dist --optimize-autoloader --no-dev`;
-        `serverless deploy`;
+        $this->comment(shell_exec('composer install --prefer-dist --optimize-autoloader --no-dev'));
+        $this->comment(shell_exec('serverless deploy'));
+        $this->comment(shell_exec('vendor/bin/bref cli fordpass-production-web  -- create:database'));
+        $this->comment(shell_exec('vendor/bin/bref cli fordpass-production-web  -- migrate --force'));
     }
 }
