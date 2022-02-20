@@ -1,4 +1,4 @@
-service: fordpass
+service: lumen
 
 provider:
     name: aws
@@ -25,15 +25,16 @@ functions:
         timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
         layers:
             - ${bref:layer.php-80-fpm}
+            - ${bref:layer.console} # The "console" layer
         events:
             - httpApi: '*'
     # This function lets us run artisan commands in Lambda
-    artisan:
-        handler: artisan
-        timeout: 120 # in seconds
-        layers:
-            - ${bref:layer.php-80} # PHP
-            - ${bref:layer.console} # The "console" layer
+    # artisan:
+    #     handler: artisan
+    #     timeout: 120 # in seconds
+    #     layers:
+    #         - ${bref:layer.php-80} # PHP
+    #         - ${bref:layer.console} # The "console" layer
 
 plugins:
     # We need to include the Bref plugin

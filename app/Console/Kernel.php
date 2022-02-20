@@ -2,7 +2,9 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CreateDatabase;
 use App\Console\Commands\Deploy;
+use App\Console\Commands\EnvironmentSetCommand;
 use App\Console\Commands\VehicleControl;
 use App\Console\Commands\VehicleStatus;
 use Illuminate\Console\Scheduling\Schedule;
@@ -19,6 +21,7 @@ class Kernel extends ConsoleKernel
         VehicleControl::class,
         VehicleStatus::class,
         Deploy::class,
+        CreateDatabase::class,
     ];
 
     /**

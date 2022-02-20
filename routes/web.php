@@ -17,6 +17,8 @@
 //     return view('index');
 // });
 
+$router->get('/env', fn () => config()->get('app'));
+
 $router->group(['prefix' => 'api', 'namespace' => 'Vehicle'], function () use ($router) {
     $router->get('/vehicle/{vin}/{command}', 'SendVehicleCommandAction');
     // $router->get('/vehicles', 'GetAllVehiclesAction');
