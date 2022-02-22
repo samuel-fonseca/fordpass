@@ -12,7 +12,7 @@ class Deploy extends Command
 
     public function handle()
     {
-        `composer install --prefer-dist --optimize-autoloader --no-dev`;
-        `serverless deploy`;
+        $this->comment(shell_exec('composer install --prefer-dist --optimize-autoloader --no-dev'));
+        $this->comment(shell_exec('serverless deploy'));
     }
 }
