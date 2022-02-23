@@ -13,6 +13,10 @@
 |
 */
 
+$router->group(['auth' => 'web'], function () use ($router) {
+    $router->get('/', 'GetHomeAction');
+});
+
 $router->group(['prefix' => 'api', 'namespace' => 'Vehicle'], function () use ($router) {
     $router->get('/vehicle/{vin}/{command}', 'SendVehicleCommandAction');
 });
