@@ -13,10 +13,23 @@
 |
 */
 
-$router->group(['auth' => 'web'], function () use ($router) {
+$router->group(['namespace' => 'Auth'], function () use ($router) {
+    $router->get('login', 'LoginController@show');
+    $router->post('login', 'LoginController@store');
+});
+
+$router->group([
+    'prefix' => '/',
+    'middleware' => 'auth',
+], function () use ($router) {
     $router->get('/', 'GetHomeAction');
 });
 
-$router->group(['prefix' => 'api', 'namespace' => 'Vehicle'], function () use ($router) {
+$router->group([
+    'prefix' => 'api',
+    'namespace' => 'Vehicle',
+    'middleware' => 'throttle:2,1',
+], function () use ($router) {
+    $router->get('/vehicle/{vin}/position', 'GetVehiclePosition');
     $router->get('/vehicle/{vin}/{command}', 'SendVehicleCommandAction');
 });

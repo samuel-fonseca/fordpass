@@ -9,9 +9,8 @@
     @stack('styles')
 </head>
 <body>
-    <div class="container">
-        @yield('container')
-    </div>
+    @yield('container')
+
     <script src="js/app.js"></script>
     @stack('scripts')
 </body>

@@ -9,7 +9,7 @@ class GetHomeAction extends Controller
 {
     public function __invoke(Vehicle $service)
     {
-        return view('home', Cache::remember('homepage', 1000000, fn () => [
+        return view('home', Cache::remember(md5('homepage'), 1000000, fn () => [
             'status' => $service->status()['vehiclestatus'] ?? [],
             'capabilities' => $service->capabilities()['result'] ?? [],
             'details' => $service->details()['vehicle'] ?? [],
