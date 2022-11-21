@@ -15,11 +15,9 @@ class Ford
 
     protected array $clientHeaders = [
         'Accept' => '*/*',
-        'Accept-Language' => 'en-us',
-        'Content-Type' => 'application/json',
-        'User-Agent' => 'FordPass/5 CFNetwork/1197 Darwin/20.0.00',
+        'User-Agent' => 'FordPass/24 CFNetwork/1399 Darwin/22.1.0',
+        'Accept-Language' => 'en-US,en;q=0.9',
         'Accept-Encoding' => 'gzip, deflate, br',
-        'Application-Id' => '71A3AD0A-CF46-4CCF-B473-FC7FE5BC4592',
     ];
 
     public function __construct()
@@ -43,7 +41,7 @@ class Ford
         $token = ModelsToken::query()->notExpired()->first();
 
         if (empty($token)) {
-            $token = (new Token)->authenticate();
+            $token = (new Auth())->authenticate();
         }
 
         return $token;
@@ -63,5 +61,13 @@ class Ford
     protected function decodedResponse(mixed $response): mixed
     {
         return json_decode((string) $response->getBody(), true);
+    }
+
+    protected function clientHeaders(?array $headers = null): array
+    {
+        return array_merge(
+            $this->clientHeaders,
+            $headers ?? []
+        );
     }
 }
