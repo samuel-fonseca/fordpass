@@ -1,0 +1,35 @@
+{
+  "name": "fordpass",
+  "version": "1.0.0",
+  "description": "A small lumen package to control/view ford vehicles",
+  "main": "webpack.mix.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "npx mix",
+    "watch": "npx mix watch",
+    "prod": "npx mix --production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samuel-fonseca/fordpass.git"
+  },
+  "author": "Samuel Fonseca",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/samuel-fonseca/fordpass/issues"
+  },
+  "homepage": "https://github.com/samuel-fonseca/fordpass#readme",
+  "dependencies": {
+    "@popperjs/core": "^2.11.2",
+    "bootstrap": "^5.1.3",
+    "bootstrap-icons": "^1.8.1"
+  },
+  "devDependencies": {
+    "laravel-mix": "^6.0.43",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.49.8",
+    "sass-loader": "^12.6.0"
+  }
+}

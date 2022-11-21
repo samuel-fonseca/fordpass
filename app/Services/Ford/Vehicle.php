@@ -6,6 +6,8 @@ class Vehicle extends Ford
 {
     protected array $clientConfig;
 
+    protected string $application_id = '71A3AD0A-CF46-4CCF-B473-FC7FE5BC4592';
+
     public function __construct()
     {
         $this->clientConfig = [
@@ -22,7 +24,7 @@ class Vehicle extends Ford
             $this->refreshStatus();
         }
 
-        $response = $this->client->get(sprintf('/api/vehicles/v4/%s/status', $this->vin));
+        $response = $this->client->get(sprintf('/api/vehicles/v5/%s/status', $this->vin));
 
         return $this->decodedResponse($response);
     }
@@ -39,8 +41,19 @@ class Vehicle extends Ford
     {
         return $this->decodedResponse(
             $this->client
-                ->get(sprintf('https://usapi.cv.ford.com/api/users/vehicles/%s/detail', $this->vin))
+                ->get(sprintf('/api/users/vehicles/%s/detail', $this->vin))
         );
+    }
+
+    public function listAll(bool $fresh = false): array
+    {
+        if ($fresh) {
+            $this->refreshStatus();
+        }
+
+        $response = $this->client->post('https://api.mps.ford.com/api/expdashboard/v1/details');
+
+        return $this->decodedResponse($response);
     }
 
     /*******************************************
@@ -49,7 +62,7 @@ class Vehicle extends Ford
 
     public function lock(): array
     {
-        $uri = sprintf('api/vehicles/v2/%s/doors/lock', $this->vin);
+        $uri = sprintf('api/vehicles/v5/%s/doors/lock', $this->vin);
         $response = $this->client->put($uri, [
             'headers' => $this->headers(),
         ]);
@@ -59,7 +72,7 @@ class Vehicle extends Ford
 
     public function unlock(): array
     {
-        $uri = sprintf('api/vehicles/v2/%s/doors/lock', $this->vin);
+        $uri = sprintf('api/vehicles/v5/%s/doors/lock', $this->vin);
 
         $response = $this->client->delete($uri, [
             'headers' => $this->headers(),
@@ -122,8 +135,16 @@ class Vehicle extends Ford
 
     private function headers(): array
     {
+        $token = $this->getToken();
+
         return array_merge($this->clientHeaders, [
-            'Auth-Token' => $this->getToken()->access_token
+            'Content-Type' => 'application/json',
+            'Accept' => '*/*',
+            'Accept-Language' => 'en-US,en;q=0.9',
+            'Application-Id' => $this->application_id,
+            'auth-token' => $token->access_token,
+            'Referer' => 'https://ford.com',
+            'Origin' => 'https://ford.com',
         ]);
     }
 

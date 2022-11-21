@@ -13,6 +13,16 @@
 |
 */
 
-$router->group(['prefix' => 'api', 'namespace' => 'Vehicle'], function () use ($router) {
+$router->group([
+    'prefix' => 'ui',
+], function () use ($router) {
+    $router->get('/info', 'GetInfoAction');
+});
+
+$router->group([
+    'prefix' => 'api',
+    'namespace' => 'Vehicle',
+], function () use ($router) {
+    $router->get('/vehicle/{vin}/position', 'GetVehiclePosition');
     $router->get('/vehicle/{vin}/{command}', 'SendVehicleCommandAction');
 });
